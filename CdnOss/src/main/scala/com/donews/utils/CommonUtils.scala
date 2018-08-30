@@ -1,4 +1,4 @@
-package com.donews
+package com.donews.utils
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

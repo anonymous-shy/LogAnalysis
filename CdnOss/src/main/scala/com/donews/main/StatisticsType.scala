@@ -1,6 +1,6 @@
 package com.donews.main
 
-import com.donews.CommonUtils
+import com.donews.utils.CommonUtils
 import com.typesafe.config.ConfigFactory
 import org.apache.commons.lang3.StringUtils
 import org.apache.spark.sql.{SaveMode, SparkSession}
