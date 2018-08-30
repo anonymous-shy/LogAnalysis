@@ -49,7 +49,23 @@ object StatisticsType {
 
     val currentDay = args(0)
 
-    //-----------------------------------------------------------------------------------------
+    //----------------------------------------cdn-------------------------------------------------
+    val conf = new SparkConf()
+      .setAppName("Log2ES")
+    val sc = new SparkContext(conf)
+
+    log_process.cdn_logProcess2hive(sc,spark,currentDay,"logs.cdn_og")
+
+
+    //------------------------------------------oss-----------------------------------------------
+
+    log_process.oss_logProcess2hive(sc, spark, currentDay, "logs.oss_og")
+
+    //-------------------------------------------online----------------------------------------------
+
+    log_process.online_logProcess2hive(sc, spark, currentDay, "logs.online_og")
+
+
 
     import spark.sql
 
