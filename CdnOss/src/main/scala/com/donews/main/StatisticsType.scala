@@ -126,7 +126,10 @@ object StatisticsType {
     cdn.join(online, online("file_uri") === cdn("uri"), "left").createOrReplaceTempView("online_statistics")
 
     //将线上数据写入hive
-    sql(s"insert overwrite table logs.cdn_online partition(dt='${currentDay}' ) select bucket,access_ip,file_day,file_path,hitrate,httpcode,user_agent,responsesize_bytes,method,file_type,file_uri,uid,publishtime_str,utimestr,newsid,newsmode,uri_type from online_statistics")
+    sql(s"insert overwrite table logs.cdn_online partition(dt='${currentDay}' ) " +
+      s"select bucket,access_ip,file_day,file_path,hitrate,httpcode,user_agent,responsesize_bytes,method,file_type,file_uri," +
+      s"uid,publishtime_str,utimestr,newsid,newsmode,uri_type " +
+      s"from online_statistics")
 
 
     val online_in_7 = sql(
