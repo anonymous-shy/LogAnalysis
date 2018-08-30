@@ -153,7 +153,7 @@ object StatisticsType {
          |GROUP by bucket,file_type,file_path
       """.stripMargin)
 
-    //
+    
     val offline = sql(
       s"""
          |select bucket,file_type,file_path,
