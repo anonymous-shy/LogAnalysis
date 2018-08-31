@@ -48,14 +48,6 @@ object StatisticsAll {
     val dbUrl = resConf.getString("db.default.url")
 
     // cdn_online table
-    spark.table("logs.cdn_online").where(s"dt = $currentDay")
-      .withColumnRenamed("bucket", "cdn_bucket")
-      .withColumnRenamed("file_uri", "uri")
-      .withColumnRenamed("access_url", "url")
-      .withColumnRenamed("access_ip", "ip")
-      .withColumnRenamed("user_agent", "ua")
-      .createOrReplaceTempView("cdn")
-
     sql(
       s"""
          |SELECT host,
@@ -69,7 +61,9 @@ object StatisticsAll {
          |file_path,
          |file_type
          |FROM logs.cdn_online
+         |WHERE dt = '$currentDay'
          """.stripMargin)
+      .createOrReplaceTempView("cdn")
     // oss table
     sql(
       s"""
