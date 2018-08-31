@@ -21,11 +21,11 @@ object StatisticsType {
     val dbUrl = resConf.getString("db.default.url")
 
 
-    //val warehouseLocation = "hdfs://HdfsHA/data/user/hive/warehouse"
+    val warehouseLocation = "hdfs://HdfsHA/data/user/hive/warehouse"
     val spark = SparkSession
       .builder()
       .appName(getClass.getSimpleName)
-      //.config("spark.sql.warehouse.dir", warehouseLocation)
+      .config("spark.sql.warehouse.dir", warehouseLocation)
       .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
       .config("spark.sql.shuffle.partitions", "240")
       .enableHiveSupport()
@@ -57,14 +57,16 @@ object StatisticsType {
       */
     sql(
       s"""
-         |SELECT host,
+         SELECT host,
          |gen_domain(host) as cdn_bucket,
+         |file_day,
          |access_ip as ip,
          |hitrate,
-         |access_url as url,
+         |httpcode,
+         |user_agent,
+         |method,
          |gen_url(access_url) as uri,
          |responsesize_bytes,
-         |user_agent as ua,
          |md5(concat(access_ip,user_agent)) as user,
          |file_path,
          |file_type
