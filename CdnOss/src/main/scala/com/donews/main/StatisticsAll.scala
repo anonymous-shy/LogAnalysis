@@ -48,7 +48,7 @@ object StatisticsAll {
     val dbUrl = resConf.getString("db.default.url")
 
     // cdn_online table
-    spark.table("logs.cdn_online").where(s"dt = $currentDay").createOrReplaceTempView("cdn")
+    spark.table("logs.cdn_online").where(s"dt = $currentDay").withColumnRenamed("bucket", "cdn_bucket").createOrReplaceTempView("cdn")
     // oss table
     sql(
       s"""
