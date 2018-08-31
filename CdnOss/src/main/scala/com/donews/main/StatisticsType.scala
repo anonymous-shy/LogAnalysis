@@ -21,16 +21,17 @@ object StatisticsType {
     val dbUrl = resConf.getString("db.default.url")
 
 
-    val warehouseLocation = "hdfs://HdfsHA/data/user/hive/warehouse"
+    //val warehouseLocation = "hdfs://HdfsHA/data/user/hive/warehouse"
     val spark = SparkSession
       .builder()
       .appName(getClass.getSimpleName)
-      .config("spark.sql.warehouse.dir", warehouseLocation)
+      //.config("spark.sql.warehouse.dir", warehouseLocation)
       .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
       .config("spark.sql.shuffle.partitions", "240")
       .enableHiveSupport()
       .getOrCreate()
 
+    spark.sql("use logs")
 
     val domainMap: Map[String, String] = Map(
       "donewsdata.donews.com" -> "donewsdataoss",
@@ -48,8 +49,6 @@ object StatisticsType {
     })
 
     val currentDay = args(0)
-
-    //-----------------------------------------------------------------------------------------
 
     import spark.sql
 
