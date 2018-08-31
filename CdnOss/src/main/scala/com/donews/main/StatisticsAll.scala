@@ -50,7 +50,7 @@ object StatisticsAll {
     // cdn_online table
     sql(
       s"""
-         |SELECT host,
+         |SELECT
          |bucket as cdn_bucket,
          |access_ip as ip,
          |hitrate,
