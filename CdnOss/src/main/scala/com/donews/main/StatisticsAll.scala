@@ -20,14 +20,16 @@ object StatisticsAll {
     val b3D = (plusDays(today, -3), "before3Days")
     val b7D = (plusDays(today, -7), "before7Days")
 
-    val warehouseLocation = "hdfs://HdfsHA/data/user/hive/warehouse"
+    //val warehouseLocation = "hdfs://HdfsHA/data/user/hive/warehouse"
+    //val warehouseLocation = "hdfs://HdfsHA/data/user/spark/warehouse"
 
     val spark = SparkSession
       .builder()
       .appName(getClass.getSimpleName)
-      .config("spark.sql.warehouse.dir", warehouseLocation)
+      //.config("spark.sql.warehouse.dir", warehouseLocation)
       .enableHiveSupport()
       .getOrCreate()
+
 
     process(spark, today, b1D)
     process(spark, today, b3D)
@@ -36,6 +38,7 @@ object StatisticsAll {
 
   def process(spark: SparkSession, today: String, dayType: (String, String)): Unit = {
     import spark.sql
+    spark.sql("use logs")
     val currentDay = plusDays(today, -1)
     val resConf = ConfigFactory.load()
     val prop = new java.util.Properties()
@@ -45,7 +48,7 @@ object StatisticsAll {
     val dbUrl = resConf.getString("db.default.url")
 
     // cdn_online table
-    spark.table("logs.cdn_online").where(s"dt = $currentDay").createOrReplaceTempView("cdno")
+    spark.table("logs.cdn_online").where(s"dt = $currentDay").createOrReplaceTempView("cdn")
     // oss table
     sql(
       s"""
@@ -56,7 +59,7 @@ object StatisticsAll {
          |delta_datasize,
          |lower(key) as uri,
          |sync_request
-         |FROM oss_og
+         |FROM logs.oss_og
          |WHERE dt >= '${dayType._1}' and dt < '$today' and (method = 'PUT' or method = 'DELETE')
        """.stripMargin)
       .createOrReplaceTempView("oss")
