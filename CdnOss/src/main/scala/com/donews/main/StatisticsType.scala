@@ -51,11 +51,10 @@ object StatisticsType {
 
     //----------------------------------------cdn-------------------------------------------------
     val conf = new SparkConf()
-      .setAppName("Log2ES")
+      .setAppName("Log2hive")
     val sc = new SparkContext(conf)
 
     log_process.cdn_logProcess2hive(sc,spark,currentDay,"logs.cdn_og")
-
 
     //------------------------------------------oss-----------------------------------------------
 
