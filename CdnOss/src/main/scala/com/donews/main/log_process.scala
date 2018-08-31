@@ -80,7 +80,7 @@ object log_process {
       val smp2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
       val log_date = smp2.format(smp.parse(log_timestamp))
 
-      val file_uri = access_url.toString.split(host + "/")(1)
+      val file_uri = access_url.toString.split(host + "/")(1).split("\\?")(0).toLowerCase
       if (responsesize_bytes.equals("-")) {
         responsesize_bytes = "0"
       }

@@ -48,7 +48,28 @@ object StatisticsAll {
     val dbUrl = resConf.getString("db.default.url")
 
     // cdn_online table
-    spark.table("logs.cdn_online").where(s"dt = $currentDay").withColumnRenamed("bucket", "cdn_bucket").createOrReplaceTempView("cdn")
+    spark.table("logs.cdn_online").where(s"dt = $currentDay")
+      .withColumnRenamed("bucket", "cdn_bucket")
+      .withColumnRenamed("file_uri", "uri")
+      .withColumnRenamed("access_url", "url")
+      .withColumnRenamed("access_ip", "ip")
+      .withColumnRenamed("user_agent", "ua")
+      .createOrReplaceTempView("cdn")
+
+    sql(
+      s"""
+         |SELECT host,
+         |bucket as cdn_bucket,
+         |access_ip as ip,
+         |hitrate,
+         |file_uri as uri,
+         |responsesize_bytes,
+         |user_agent as ua,
+         |md5(concat(access_ip,user_agent)) as user,
+         |file_path,
+         |file_type
+         |FROM logs.cdn_online
+         """.stripMargin)
     // oss table
     sql(
       s"""
