@@ -20,13 +20,13 @@ object StatisticsAll {
     val b3D = (plusDays(today, -3), "before3Days")
     val b7D = (plusDays(today, -7), "before7Days")
 
-    val warehouseLocation = "hdfs://HdfsHA/data/user/hive/warehouse"
+    //val warehouseLocation = "hdfs://HdfsHA/data/user/hive/warehouse"
     //val warehouseLocation = "hdfs://HdfsHA/data/user/spark/warehouse"
 
     val spark = SparkSession
       .builder()
       .appName(getClass.getSimpleName)
-      .config("spark.sql.warehouse.dir", warehouseLocation)
+      //.config("spark.sql.warehouse.dir", warehouseLocation)
       .enableHiveSupport()
       .getOrCreate()
 
