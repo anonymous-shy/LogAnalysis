@@ -72,9 +72,7 @@ object StatisticsType {
          |file_type
          |FROM logs.cdn_og
          |WHERE dt='${currentDay}'
-         """.stripMargin)
-      //      .persist(StorageLevel.MEMORY_ONLY_SER)
-      .createOrReplaceTempView("cdn")
+         """.stripMargin).createOrReplaceTempView("cdn")
 
     sql(
       s"""
@@ -115,8 +113,7 @@ object StatisticsType {
          | WHERE hitrate = 'MISS'
          | GROUP by cdn_bucket,file_type,file_path) b
          | on a.cdn_bucket = b.cdn_bucket and a.file_type = b.file_type and a.file_path = b.file_path
-      """.stripMargin)
-      .withColumnRenamed("cdn_bucket", "bucket")
+      """.stripMargin).withColumnRenamed("cdn_bucket", "bucket")
 
 
     /**
@@ -191,6 +188,9 @@ object StatisticsType {
       .join(ossRes2, Seq("bucket", "file_type", "file_path"), "outer")
       .write.mode(SaveMode.Append).jdbc(dbUrl, "Statistics_Type", prop)
 
+
+    sql("select user_agent,count(1) as ua_cnt from cdn group by user_agent").write.mode(SaveMode.Append).jdbc(dbUrl, s"Cdn_ua_cnt${currentDay.replaceAll("-","")}", prop)
+    sql("select referer_host,count(1) as refhost_cnt from cdn group by referer_host").write.mode(SaveMode.Append).jdbc(dbUrl, s"Cdn_referHost_cnt${currentDay.replaceAll("-", "")}", prop)
 
 
   }
