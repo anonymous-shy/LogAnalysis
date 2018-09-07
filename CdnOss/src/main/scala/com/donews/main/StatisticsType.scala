@@ -57,7 +57,7 @@ object StatisticsType {
       */
     sql(
       s"""
-         SELECT host,
+         SELECT host,referer_host,
          |gen_domain(host) as cdn_bucket,
          |file_day,
          |access_ip as ip,
