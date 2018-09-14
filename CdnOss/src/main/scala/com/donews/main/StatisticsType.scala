@@ -192,6 +192,10 @@ object StatisticsType {
     sql("select user_agent,count(1) as ua_cnt from cdn group by user_agent").write.mode(SaveMode.Append).jdbc(dbUrl, s"Cdn_ua_cnt${currentDay.replaceAll("-","")}", prop)
     sql("select referer_host,count(1) as refhost_cnt from cdn group by referer_host").write.mode(SaveMode.Append).jdbc(dbUrl, s"Cdn_referHost_cnt${currentDay.replaceAll("-", "")}", prop)
 
+    val ip_cnt = sql("select ip,count(1) as ua_cnt from cdn group by ip")//.write.mode(SaveMode.Append).jdbc(dbUrl, s"Cdn_ip_cnt${currentDay.replaceAll("-", "")}", prop)
+    val ip_size = sql("select ip,SUM(responsesize_bytes) as ua_cnt from cdn group by ip")//.write.mode(SaveMode.Append).jdbc(dbUrl, s"Cdn_ip_size${currentDay.replaceAll("-", "")}", prop)
 
+    ip_cnt.rdd.coalesce(1).saveAsTextFile(s"/data/cdn_oss/output/ip_cnt-${currentDay}")
+    ip_size.rdd.coalesce(1).saveAsTextFile(s"/data/cdn_oss/output/ip_size-${currentDay}")
   }
 }
