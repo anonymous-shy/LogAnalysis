@@ -4,7 +4,7 @@
 <configuration>
   <property>
     <name>hive.metastore.uris</name>
-    <value>thrift://xy-master:9083</value>
+    <value>thrift://bjxg-bigdata-master:9083</value>
   </property>
   <property>
     <name>hive.metastore.client.socket.timeout</name>
@@ -176,7 +176,7 @@
   </property>
   <property>
     <name>hive.spark.client.rpc.server.address</name>
-    <value>xy-master</value>
+    <value>bjxg-bigdata-master</value>
   </property>
   <property>
     <name>hive.metastore.execute.setugi</name>
@@ -188,7 +188,7 @@
   </property>
   <property>
     <name>hive.zookeeper.quorum</name>
-    <value>xy-slave02,xy-slave04,xy-slave01,xy-slave03,xy-slave05</value>
+    <value>bjxg-bigdata-slave01,bjxg-bigdata-slave03,bjxg-bigdata-slave05,bjxg-bigdata-slave02,bjxg-bigdata-slave04</value>
   </property>
   <property>
     <name>hive.zookeeper.client.port</name>
@@ -200,7 +200,7 @@
   </property>
   <property>
     <name>hbase.zookeeper.quorum</name>
-    <value>xy-slave02,xy-slave04,xy-slave01,xy-slave03,xy-slave05</value>
+    <value>bjxg-bigdata-slave01,bjxg-bigdata-slave03,bjxg-bigdata-slave05,bjxg-bigdata-slave02,bjxg-bigdata-slave04</value>
   </property>
   <property>
     <name>hbase.zookeeper.property.clientPort</name>

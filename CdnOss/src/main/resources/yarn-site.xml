@@ -28,7 +28,7 @@
   </property>
   <property>
     <name>yarn.resourcemanager.zk-address</name>
-    <value>xy-slave02:2181,xy-slave04:2181,xy-slave01:2181,xy-slave03:2181,xy-slave05:2181</value>
+    <value>bjxg-bigdata-slave01:2181,bjxg-bigdata-slave03:2181,bjxg-bigdata-slave05:2181,bjxg-bigdata-slave02:2181,bjxg-bigdata-slave04:2181</value>
   </property>
   <property>
     <name>yarn.resourcemanager.store.class</name>
@@ -47,56 +47,56 @@
     <value>yarnRM</value>
   </property>
   <property>
-    <name>yarn.resourcemanager.address.rm88</name>
-    <value>xy-master:8032</value>
+    <name>yarn.resourcemanager.address.rm274</name>
+    <value>bjxg-bigdata-master:8032</value>
   </property>
   <property>
-    <name>yarn.resourcemanager.scheduler.address.rm88</name>
-    <value>xy-master:8030</value>
+    <name>yarn.resourcemanager.scheduler.address.rm274</name>
+    <value>bjxg-bigdata-master:8030</value>
   </property>
   <property>
-    <name>yarn.resourcemanager.resource-tracker.address.rm88</name>
-    <value>xy-master:8031</value>
+    <name>yarn.resourcemanager.resource-tracker.address.rm274</name>
+    <value>bjxg-bigdata-master:8031</value>
   </property>
   <property>
-    <name>yarn.resourcemanager.admin.address.rm88</name>
-    <value>xy-master:8033</value>
+    <name>yarn.resourcemanager.admin.address.rm274</name>
+    <value>bjxg-bigdata-master:8033</value>
   </property>
   <property>
-    <name>yarn.resourcemanager.webapp.address.rm88</name>
-    <value>xy-master:8088</value>
+    <name>yarn.resourcemanager.webapp.address.rm274</name>
+    <value>bjxg-bigdata-master:8088</value>
   </property>
   <property>
-    <name>yarn.resourcemanager.webapp.https.address.rm88</name>
-    <value>xy-master:8090</value>
+    <name>yarn.resourcemanager.webapp.https.address.rm274</name>
+    <value>bjxg-bigdata-master:8090</value>
   </property>
   <property>
-    <name>yarn.resourcemanager.address.rm134</name>
-    <value>xy-slave10:8032</value>
+    <name>yarn.resourcemanager.address.rm337</name>
+    <value>bjxg-bigdata-slave16:8032</value>
   </property>
   <property>
-    <name>yarn.resourcemanager.scheduler.address.rm134</name>
-    <value>xy-slave10:8030</value>
+    <name>yarn.resourcemanager.scheduler.address.rm337</name>
+    <value>bjxg-bigdata-slave16:8030</value>
   </property>
   <property>
-    <name>yarn.resourcemanager.resource-tracker.address.rm134</name>
-    <value>xy-slave10:8031</value>
+    <name>yarn.resourcemanager.resource-tracker.address.rm337</name>
+    <value>bjxg-bigdata-slave16:8031</value>
   </property>
   <property>
-    <name>yarn.resourcemanager.admin.address.rm134</name>
-    <value>xy-slave10:8033</value>
+    <name>yarn.resourcemanager.admin.address.rm337</name>
+    <value>bjxg-bigdata-slave16:8033</value>
   </property>
   <property>
-    <name>yarn.resourcemanager.webapp.address.rm134</name>
-    <value>xy-slave10:8088</value>
+    <name>yarn.resourcemanager.webapp.address.rm337</name>
+    <value>bjxg-bigdata-slave16:8088</value>
   </property>
   <property>
-    <name>yarn.resourcemanager.webapp.https.address.rm134</name>
-    <value>xy-slave10:8090</value>
+    <name>yarn.resourcemanager.webapp.https.address.rm337</name>
+    <value>bjxg-bigdata-slave16:8090</value>
   </property>
   <property>
     <name>yarn.resourcemanager.ha.rm-ids</name>
-    <value>rm88,rm134</value>
+    <value>rm274,rm337</value>
   </property>
   <property>
     <name>yarn.resourcemanager.client.thread-count</name>
@@ -120,7 +120,7 @@
   </property>
   <property>
     <name>yarn.scheduler.maximum-allocation-mb</name>
-    <value>22326</value>
+    <value>82342</value>
   </property>
   <property>
     <name>yarn.scheduler.minimum-allocation-vcores</name>
@@ -132,7 +132,7 @@
   </property>
   <property>
     <name>yarn.scheduler.maximum-allocation-vcores</name>
-    <value>32</value>
+    <value>20</value>
   </property>
   <property>
     <name>yarn.resourcemanager.amliveliness-monitor.interval-ms</name>

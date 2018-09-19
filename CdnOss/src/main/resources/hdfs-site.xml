@@ -4,55 +4,55 @@
 <configuration>
   <property>
     <name>dfs.nameservices</name>
-    <value>HdfsHA</value>
+    <value>hdfsHA</value>
   </property>
   <property>
-    <name>dfs.client.failover.proxy.provider.HdfsHA</name>
+    <name>dfs.client.failover.proxy.provider.hdfsHA</name>
     <value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
   </property>
   <property>
-    <name>dfs.ha.automatic-failover.enabled.HdfsHA</name>
+    <name>dfs.ha.automatic-failover.enabled.hdfsHA</name>
     <value>true</value>
   </property>
   <property>
     <name>ha.zookeeper.quorum</name>
-    <value>xy-slave01:2181,xy-slave02:2181,xy-slave03:2181,xy-slave04:2181,xy-slave05:2181</value>
+    <value>bjxg-bigdata-slave01:2181,bjxg-bigdata-slave02:2181,bjxg-bigdata-slave03:2181,bjxg-bigdata-slave04:2181,bjxg-bigdata-slave05:2181</value>
   </property>
   <property>
-    <name>dfs.ha.namenodes.HdfsHA</name>
-    <value>namenode78,namenode109</value>
+    <name>dfs.ha.namenodes.hdfsHA</name>
+    <value>namenode258,namenode331</value>
   </property>
   <property>
-    <name>dfs.namenode.rpc-address.HdfsHA.namenode78</name>
-    <value>xy-master:8020</value>
+    <name>dfs.namenode.rpc-address.hdfsHA.namenode258</name>
+    <value>bjxg-bigdata-master:8020</value>
   </property>
   <property>
-    <name>dfs.namenode.servicerpc-address.HdfsHA.namenode78</name>
-    <value>xy-master:8022</value>
+    <name>dfs.namenode.servicerpc-address.hdfsHA.namenode258</name>
+    <value>bjxg-bigdata-master:8022</value>
   </property>
   <property>
-    <name>dfs.namenode.http-address.HdfsHA.namenode78</name>
-    <value>xy-master:50070</value>
+    <name>dfs.namenode.http-address.hdfsHA.namenode258</name>
+    <value>bjxg-bigdata-master:50070</value>
   </property>
   <property>
-    <name>dfs.namenode.https-address.HdfsHA.namenode78</name>
-    <value>xy-master:50470</value>
+    <name>dfs.namenode.https-address.hdfsHA.namenode258</name>
+    <value>bjxg-bigdata-master:50470</value>
   </property>
   <property>
-    <name>dfs.namenode.rpc-address.HdfsHA.namenode109</name>
-    <value>xy-slave07:8020</value>
+    <name>dfs.namenode.rpc-address.hdfsHA.namenode331</name>
+    <value>bjxg-bigdata-slave07:8020</value>
   </property>
   <property>
-    <name>dfs.namenode.servicerpc-address.HdfsHA.namenode109</name>
-    <value>xy-slave07:8022</value>
+    <name>dfs.namenode.servicerpc-address.hdfsHA.namenode331</name>
+    <value>bjxg-bigdata-slave07:8022</value>
   </property>
   <property>
-    <name>dfs.namenode.http-address.HdfsHA.namenode109</name>
-    <value>xy-slave07:50070</value>
+    <name>dfs.namenode.http-address.hdfsHA.namenode331</name>
+    <value>bjxg-bigdata-slave07:50070</value>
   </property>
   <property>
-    <name>dfs.namenode.https-address.HdfsHA.namenode109</name>
-    <value>xy-slave07:50470</value>
+    <name>dfs.namenode.https-address.hdfsHA.namenode331</name>
+    <value>bjxg-bigdata-slave07:50470</value>
   </property>
   <property>
     <name>dfs.replication</name>
