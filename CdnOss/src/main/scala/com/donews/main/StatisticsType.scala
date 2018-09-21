@@ -47,6 +47,14 @@ object StatisticsType {
       val domain = domainBD.value.getOrElse(host, "")
       domain
     })
+    spark.udf.register("getDay", (time: String) => {
+      if (time != null) {
+        time.split(" ")(0)
+      }else{
+        "-"
+      }
+    })
+
 
     val currentDay = args(0)
 

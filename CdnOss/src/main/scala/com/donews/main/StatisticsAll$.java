@@ -1,10 +1,4 @@
-package com.donews.main
-
-import com.donews.utils.CommonUtils.plusDays
-import com.typesafe.config.ConfigFactory
-import org.apache.spark.sql.{SaveMode, SparkSession}
-import org.apache.spark.storage.StorageLevel
-import org.slf4j.{Logger, LoggerFactory}
+package com.donews.main;
 
 /**
   * Created by Shy on 2018/8/30
