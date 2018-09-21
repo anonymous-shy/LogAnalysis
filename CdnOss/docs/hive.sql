@@ -34,6 +34,7 @@ PARTITIONED BY(dt STRING, bucket STRING)
 STORED AS PARQUET
 tblproperties ("orc.compress"="SNAPPY");
 
+
 CREATE TABLE logs.oss_og(
 remote_ip STRING,
 log_timestamp STRING,
