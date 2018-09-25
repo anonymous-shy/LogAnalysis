@@ -131,9 +131,9 @@ object StatisticsType {
     val cdn = sql(s"select file_day,uri,sum(responsesize_bytes) as responsesize_bytes,cdn_bucket as bucket,ip as access_ip,file_path,hitrate,httpcode,user_agent,method,file_type from cdn  group by file_day,uri,cdn_bucket,ip,file_path,hitrate,httpcode,user_agent,method,file_type") //.rdd
     cdn.join(online, online("file_uri") === cdn("uri"), "left").createOrReplaceTempView("online_statistics")
 
-    //将线上数据写入hive
+    //将线上数据写入hive & 去cdn中uri
     sql(s"insert overwrite table logs.cdn_online partition(dt='${currentDay}' ) " +
-      s"select bucket,access_ip,file_day,file_path,hitrate,httpcode,user_agent,responsesize_bytes,method,file_type,file_uri," +
+      s"select bucket,access_ip,file_day,file_path,hitrate,httpcode,user_agent,responsesize_bytes,method,file_type,uri," +
       s"uid,publishtime_str,utimestr,newsid,newsmode,uri_type " +
       s"from online_statistics")
 
