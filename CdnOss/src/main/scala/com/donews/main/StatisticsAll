@@ -16,8 +16,7 @@ object StatisticsAll {
   def main(args: Array[String]): Unit = {
     val today = args(0) // 取执行当天日期,处理的文件日期为today-1
     //判断日期取 当日,3日,7日 日期
-    val b1D = (plusDays(today, -1), "curren" +
-      "tDay")
+    val b1D = (plusDays(today, -1), "currentDay")
     val b3D = (plusDays(today, -3), "before3Days")
     val b7D = (plusDays(today, -7), "before7Days")
 
@@ -146,7 +145,7 @@ object StatisticsAll {
          |'${dayType._2}' as day_type
          |FROM tab1
         """.stripMargin)
-          .write.mode(SaveMode.Append).jdbc(dbUrl, "Statistics_All", prop) // 重刷数据
+      .write.mode(SaveMode.Append).jdbc(dbUrl, "Statistics_All", prop) // 重刷数据
 
     // 子表
     ossCdn.withColumnRenamed("oss_bucket", "bucket").createOrReplaceTempView("OssCdn")
