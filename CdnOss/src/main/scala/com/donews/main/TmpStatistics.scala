@@ -6,6 +6,7 @@ import org.slf4j.{Logger, LoggerFactory}
 
 /**
   * Created by Shy on 2018/8/20
+  * 每日CDN环比统计
   */
 
 object TmpStatistics {
