@@ -1,6 +1,5 @@
 package com.donews.main
 
-import org.apache.commons.lang3.StringUtils
 import org.apache.spark.sql.SparkSession
 import org.slf4j.{Logger, LoggerFactory}
 
@@ -23,15 +22,7 @@ object OssStat {
       .enableHiveSupport()
       .getOrCreate()
 
-    spark.udf.register("gen_url", (url: String) => {
-      var tmpUrl = url
-      if (url.contains("\""))
-        tmpUrl = url.replaceAll("\"", "")
-      if (url.contains("["))
-        tmpUrl = url.replace("[", "")
-      if (url.contains("]"))
-        tmpUrl = url.replace("]", "")
-      tmpUrl
-    })
+    val ossData = spark.read.textFile("/data/cdn_oss/oss/oss_file/OssData-data")
+
   }
 }
