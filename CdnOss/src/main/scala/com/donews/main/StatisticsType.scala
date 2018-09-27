@@ -9,7 +9,6 @@ import org.slf4j.{Logger, LoggerFactory}
 
 object StatisticsType {
   val LOG: Logger = LoggerFactory.getLogger(getClass)
-
   def main(args: Array[String]): Unit = {
 
     //-----------------------------------------------------------------------------
@@ -43,10 +42,7 @@ object StatisticsType {
       "niuerdata.donews.com" -> "donews-data")
 
     val domainBD = spark.sparkContext.broadcast[Map[String, String]](domainMap)
-    spark.udf.register("gen_url", (url: String) => {
-      var tmp = StringUtils.substringAfter(url.split("//")(1), "/").split("\\?")(0).toLowerCase
-      val gen_url = if (tmp == null || tmp == "") "---" else tmp
-    })
+    spark.udf.register("gen_url", (url: String) => StringUtils.substringAfter(url.split("//")(1), "/").split("\\?")(0).toLowerCase)
     spark.udf.register("gen_domain", (host: String) => {
       val domain = domainBD.value.getOrElse(host, "")
       domain
@@ -54,7 +50,7 @@ object StatisticsType {
     spark.udf.register("getDay", (time: String) => {
       if (time != null) {
         time.split(" ")(0)
-      } else {
+      }else{
         "-"
       }
     })
@@ -66,7 +62,7 @@ object StatisticsType {
 
     /**
       * =======================================注册原始表===========================
-      **/
+      */
     sql(
       s"""
          SELECT host,referer_host,
@@ -129,11 +125,11 @@ object StatisticsType {
 
 
     /**
-      * 线上数据
+      *  线上数据
       */
     val online = spark.table("logs.online_og")
     val cdn = sql(s"select file_day,uri,sum(responsesize_bytes) as responsesize_bytes,cdn_bucket as bucket,ip as access_ip,file_path,hitrate,httpcode,user_agent,method,file_type from cdn  group by file_day,uri,cdn_bucket,ip,file_path,hitrate,httpcode,user_agent,method,file_type") //.rdd
-    cdn.join(online, cdn("uri") === online("file_uri"), "left").createOrReplaceTempView("online_statistics")
+    cdn.join(online, online("file_uri") === cdn("uri"), "left").createOrReplaceTempView("online_statistics")
 
     //将线上数据写入hive & 去cdn中uri
     sql(s"insert overwrite table logs.cdn_online partition(dt='${currentDay}' ) " +
@@ -201,11 +197,11 @@ object StatisticsType {
       .write.mode(SaveMode.Append).jdbc(dbUrl, "Statistics_Type", prop)
 
 
-    sql("select user_agent,count(1) as ua_cnt ,SUM(responsesize_bytes) as ua_sum from cdn group by user_agent").write.mode(SaveMode.Append).jdbc(dbUrl, s"Cdn_ua_cnt${currentDay.replaceAll("-", "")}", prop)
-    sql("select referer_host,count(1) as refhost_cnt ,SUM(responsesize_bytes) as refhost_sum from cdn group by referer_host").write.mode(SaveMode.Append).jdbc(dbUrl, s"Cdn_referHost_cnt${currentDay.replaceAll("-", "")}", prop)
-
-    val ip_cnt = sql("select ip,count(1) as ua_cnt ,SUM(responsesize_bytes) as ua_sum from cdn group by ip") //.write.mode(SaveMode.Append).jdbc(dbUrl, s"Cdn_ip_cnt${currentDay.replaceAll("-", "")}", prop)
-
-    ip_cnt.rdd.coalesce(1).saveAsTextFile(s"/data/cdn_oss/output/ip_stat-${currentDay}")
+//    sql("select user_agent,count(1) as ua_cnt ,SUM(responsesize_bytes) as ua_sum from cdn group by user_agent").write.mode(SaveMode.Append).jdbc(dbUrl, s"Cdn_ua_cnt${currentDay.replaceAll("-","")}", prop)
+//    sql("select referer_host,count(1) as refhost_cnt ,SUM(responsesize_bytes) as refhost_sum from cdn group by referer_host").write.mode(SaveMode.Append).jdbc(dbUrl, s"Cdn_referHost_cnt${currentDay.replaceAll("-", "")}", prop)
+//
+//    val ip_cnt = sql("select ip,count(1) as ua_cnt ,SUM(responsesize_bytes) as ua_sum from cdn group by ip")//.write.mode(SaveMode.Append).jdbc(dbUrl, s"Cdn_ip_cnt${currentDay.replaceAll("-", "")}", prop)
+//
+//    ip_cnt.rdd.coalesce(1).saveAsTextFile(s"/data/cdn_oss/output/ip_stat-${currentDay}")
   }
 }
