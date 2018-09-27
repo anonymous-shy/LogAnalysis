@@ -2,7 +2,7 @@ package com.donews.minio;
 
 import java.io.*;
 
-public class GetObjectGzip {
+public class TransObject {
     public static void main(String[] args) throws IOException {
 
 

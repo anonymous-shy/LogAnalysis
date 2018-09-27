@@ -11,6 +11,7 @@
     <modules>
         <module>CommonJars</module>
         <module>CdnOss</module>
+        <module>MinioProcess</module>
     </modules>
 
     <properties>

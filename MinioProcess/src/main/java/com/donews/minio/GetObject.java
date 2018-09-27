@@ -17,7 +17,7 @@ public class GetObject {
                     "K6KG5CmrjrHB9LVu");
 
 
-            minioClient.getObject("fingers","/Android/10000086/e2808e22280bf2c4ce73ca0530e0ec65/47f98ed02e168866769c959dc262dffc/20180922082315.txt", "20180922082315.txt");
+            minioClient.getObject("fingers", "/Android/10000086/e2808e22280bf2c4ce73ca0530e0ec65/47f98ed02e168866769c959dc262dffc/20180922082315.txt", "20180922082315.txt");
 
         } catch (MinioException e) {
             System.out.println("Error occurred: " + e);
