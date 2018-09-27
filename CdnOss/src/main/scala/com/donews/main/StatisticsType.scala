@@ -46,6 +46,7 @@ object StatisticsType {
     spark.udf.register("gen_url", (url: String) => {
       var tmp = StringUtils.substringAfter(url.split("//")(1), "/").split("\\?")(0).toLowerCase
       val gen_url = if (tmp == null || tmp == "") "---" else tmp
+      gen_url
     })
     spark.udf.register("gen_domain", (host: String) => {
       val domain = domainBD.value.getOrElse(host, "")
