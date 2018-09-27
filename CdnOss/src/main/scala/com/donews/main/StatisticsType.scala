@@ -43,6 +43,7 @@ object StatisticsType {
       "niuerdata.donews.com" -> "donews-data")
 
     val domainBD = spark.sparkContext.broadcast[Map[String, String]](domainMap)
+    // 剔除空uri
     spark.udf.register("gen_url", (url: String) => {
       var tmp = StringUtils.substringAfter(url.split("//")(1), "/").split("\\?")(0).toLowerCase
       val gen_url = if (tmp == null || tmp == "") "---" else tmp
