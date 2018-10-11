@@ -16,7 +16,12 @@ object CommonUtils {
     localDate.plusDays(days).format(DateTimeFormatter.ISO_LOCAL_DATE)
   }
 
+  def plusDays(date:LocalDate ,days:Int): String = {
+    date.plusDays(days).format(DateTimeFormatter.ISO_LOCAL_DATE)
+  }
   def main(args: Array[String]): Unit = {
-    println(plusDays("2018-08-25", -3))
+    println(plusDays("2018-10-08", -7))
+
+
   }
 }
