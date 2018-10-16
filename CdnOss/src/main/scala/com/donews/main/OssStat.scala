@@ -37,34 +37,41 @@ object OssStat {
         tmpUrl = url.substring(1)
       tmpUrl
     })
+
     val ossA = spark.read.parquet("/data/cdn_oss/output/OssData.parquet")
-      .where("oss_uriO is not null")
-      .selectExpr("concat('/',oss_uriO) as oss_uriO")
+      .selectExpr("concat('/',oss_uriA) as oss_uriA", "oss_uriO")
 
     val img = spark.read.csv("/data/cdn_oss/mongo/article_photo.csv")
-      .selectExpr("_c0 as img_url", "_c1 as crawl_date", "gen_url(lower(_c2)) as saved_img_url")
+      .selectExpr("_c0 as img_url", "_c1 as crawl_date", "_c2 as saved_img_url", "gen_url(lower(_c2)) as url")
     val video = spark.read.csv("/data/cdn_oss/mongo/article_video.csv")
-      .selectExpr("_c0 as crawl_date", "gen_url(lower(_c1)) as saved_img_url", "_c2 as img_url")
+      .selectExpr("_c0 as crawl_date", "_c1 as saved_img_url", "gen_url(lower(_c1)) as url", "_c2 as img_url")
 
-    val imgJoin = img.join(ossA, img("saved_img_url") === ossA("oss_uriO"), "left_outer")
+//    val imgJoin = img.join(ossA, img("saved_img_url") === ossA("oss_uriO"), "left_outer")
+    val imgJoin = ossA.join(img, ossA("oss_uriA") === img("url"), "left_outer")
     imgJoin.createOrReplaceTempView("img")
     spark.sql(
       s"""
-         | SELECT img_url,crawl_date,saved_img_url,'$currDate' as process_date,
+         | SELECT oss_uriA,img_url,crawl_date,saved_img_url,'$currDate' as process_date,
          | case when oss_uriO IS NOT NULL then '1'
          |      when oss_uriO IS NULL then '0'
-         | end onlineSign
+         | end onlineSign,
+         | case when img_url IS NOT NULL then '1'
+         |      when img_url IS NULL then '0'
+         | end spider_relative
          | FROM img
-      """.stripMargin).write.json("/data/cdn_oss/output/oss_online/oss_online_img")
+      """.stripMargin).write.parquet("/data/cdn_oss/output/oss_online/oss_online_img.parquet")
 
-    video.join(ossA, video("saved_img_url") === ossA("oss_uriO"), "left_outer").createOrReplaceTempView("video")
+    ossA.join(video, ossA("oss_uriA") === video("url"), "left_outer").createOrReplaceTempView("video")
     spark.sql(
       s"""
-         | SELECT img_url,crawl_date,saved_img_url,'$currDate' as process_date,
+         | SELECT oss_uriA,img_url,crawl_date,saved_img_url,'$currDate' as process_date,
          | case when oss_uriO IS NOT NULL then '1'
          |      when oss_uriO IS NULL then '0'
-         | end onlineSign
+         | end onlineSign,
+         | case when img_url IS NOT NULL then '1'
+         |      when img_url IS NULL then '0'
+         | end spider_relative
          | FROM video
-      """.stripMargin).write.json("/data/cdn_oss/output/oss_online/oss_online_video")
+      """.stripMargin).write.parquet("/data/cdn_oss/output/oss_online/oss_online_video.parquet")
   }
 }
