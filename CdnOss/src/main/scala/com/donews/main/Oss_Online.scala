@@ -51,13 +51,13 @@ object Oss_Online {
 
     import spark.sql
 
-    val oss = sql(s"select key,getType(key) as file_type from logs.oss_og where dt='$day'")
+    val oss = sql(s"select saved_img_url,key, getType(saved_img_url) as file_type,objectsize,delta_datasize from logs.oss_og where dt='$day'")
     val online = sql("select gen_url(file_uri) as file_uri,uri_type from logs.online_og")
     val online_oss = oss.join(online, oss("key") === online("file_uri"), "left").where("file_uri is null")
 
     online_oss.createOrReplaceTempView("online_oss")
-    sql("select concat('/',key) as saved_img_url,max(onlineSign(file_uri)) as onlineSign from online_oss where file_type != 'mp4' group by key").write.json(s"/data/cdn_oss/output/oss_online/oss_online_img_$currDate")
-    sql("select concat('/',key) as saved_img_url,max(onlineSign(file_uri)) as onlineSign from online_oss where file_type = 'mp4' group by key").write.json(s"/data/cdn_oss/output/oss_online/oss_online_video_$currDate")
+    sql("select concat('/',saved_img_url) as saved_img_url,max(onlineSign(file_uri)) as onlineSign,sum(objectsize) as objectsize,sum(delta_datasize) as delta_datasize from online_oss where file_type != 'mp4' group by saved_img_url").write.json(s"/data/cdn_oss/output/oss_online/oss_online_img_$currDate")
+    sql("select concat('/',saved_img_url) as saved_img_url,max(onlineSign(file_uri)) as onlineSign,sum(objectsize) as objectsize,sum(delta_datasize) as delta_datasize from online_oss where file_type = 'mp4' group by saved_img_url").write.json(s"/data/cdn_oss/output/oss_online/oss_online_video_$currDate")
 
   }
 }
