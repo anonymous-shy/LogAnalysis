@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat
+
 import org.apache.commons.codec.digest.DigestUtils
 
 /**
@@ -11,6 +13,8 @@ object TestReplace extends App {
   println(DigestUtils.md5Hex("./big_media_img/2017/03/23/4f04088f-2574-11e7-8e6e-f45c89baa8c7.jpeg"))
 
   println(url3("/big_media_img/2017/03/23/4f04088f-2574-11e7-8e6e-f45c89baa8c7.jpeg"))
+
+  println(test_time("2018-10-24T06:00:00"))
 
   def getUrl(url: String): String = {
     //    var tmpUrl = url
@@ -46,5 +50,15 @@ object TestReplace extends App {
     println(urlSp(1))
     println(urlSp(2))
     s"/${urlSp(1)}/${urlSp(2)}/"
+  }
+
+  def test_time(time:String): Unit ={
+    if (time != null) {
+      val smp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+      val date = smp.parse(time)
+      date.getTime
+    } else {
+      0
+    }
   }
 }

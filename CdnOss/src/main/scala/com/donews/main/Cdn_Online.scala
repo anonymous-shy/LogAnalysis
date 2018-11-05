@@ -1,5 +1,7 @@
 package com.donews.main
 
+import java.text.SimpleDateFormat
+
 import com.typesafe.config.ConfigFactory
 import org.apache.commons.lang3.StringUtils
 import org.apache.spark.sql.{SaveMode, SparkSession}
@@ -54,6 +56,15 @@ object Cdn_Online {
         time.split(" ")(0)
       }else{
         "-"
+      }
+    })
+    spark.udf.register("get_time", (time: String) => {
+      if (time != null) {
+        val smp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+        val date = smp.parse(time)
+        date.getTime
+      }else{
+        0l
       }
     })
 
