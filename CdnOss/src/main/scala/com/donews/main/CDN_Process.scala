@@ -19,6 +19,7 @@ object CDN_Process {
   def main(args: Array[String]): Unit = {
 
     val desTable = args(0)
+
     val dt = args(1)
 
     val warehouseLocation = "hdfs://HdfsHA/data/user/hive/warehouse"
@@ -33,15 +34,15 @@ object CDN_Process {
     import spark.implicits._
 
     val fileArr = Array(
-      s"/data/cdn_oss/cdn/donewsdataoss.g.com.cn_${dt}*",
-      s"/data/cdn_oss/cdn/www.cdn.g.com.cn_${dt}*",
-      s"/data/cdn_oss/cdn/wap.cdn.g.com.cn_${dt}*",
-      s"/data/cdn_oss/cdn/niuerdata.g.com.cn_${dt}*",
-      s"/data/cdn_oss/cdn/niuerdata.donews.com_${dt}*",
-      s"/data/cdn_oss/cdn/donewsdataoss.g.com.cn_${dt}*",
-      s"/data/cdn_oss/cdn/donewsdata.donews.com_${dt}*",
-      s"/data/cdn_oss/cdn/content.g.com.cn_${dt}*",
-      s"/data/cdn_oss/cdn/vdta.g.com.cn_${dt}*"
+      s"/data/cdn_oss/cdn/$dt/donewsdataoss.g.com.cn_${dt}*",
+      s"/data/cdn_oss/cdn/$dt/www.cdn.g.com.cn_${dt}*",
+      s"/data/cdn_oss/cdn/$dt/wap.cdn.g.com.cn_${dt}*",
+      s"/data/cdn_oss/cdn/$dt/niuerdata.g.com.cn_${dt}*",
+      s"/data/cdn_oss/cdn/$dt/niuerdata.donews.com_${dt}*",
+      s"/data/cdn_oss/cdn/$dt/donewsdataoss.g.com.cn_${dt}*",
+      s"/data/cdn_oss/cdn/$dt/donewsdata.donews.com_${dt}*",
+      s"/data/cdn_oss/cdn/$dt/content.g.com.cn_${dt}*",
+      s"/data/cdn_oss/cdn/$dt/vdta.g.com.cn_${dt}*"
     )
 
     fileArr.foreach(file => {
