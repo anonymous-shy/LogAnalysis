@@ -39,7 +39,11 @@ object Cdn_Online {
       "donewsdataoss.g.com.cn" -> "donewsdataoss",
       "vdata.g.com.cn" -> "donews-data",
       "donewsdataoss.donews.com" -> "donewsdataoss",
-      "niuerdata.donews.com" -> "donews-data")
+      "niuerdata.donews.com" -> "donews-data",
+      "www.cdn.g.com.cn" -> "donews-data",
+      "wap.cdn.g.com.cn" -> "donews-data",
+      "content.g.com.cn" -> "donews-data"
+    )
 
     val domainBD = spark.sparkContext.broadcast[Map[String, String]](domainMap)
     spark.udf.register("gen_url", (url: String) => {

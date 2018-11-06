@@ -17,8 +17,8 @@ object StatisticsAll {
     val today = args(0) // 取执行当天日期,处理的文件日期为today-1
     //判断日期取 当日,3日,7日 日期
     val b1D = (plusDays(today, -1), "currentDay")
-    val b3D = (plusDays(today, -3), "before3Days")
-    val b7D = (plusDays(today, -7), "before7Days")
+    //    val b3D = (plusDays(today, -3), "before3Days")
+    //    val b7D = (plusDays(today, -7), "before7Days")
 
     val warehouseLocation = "hdfs://HdfsHA/data/user/hive/warehouse"
     //val warehouseLocation = "hdfs://HdfsHA/data/user/spark/warehouse"
@@ -27,13 +27,15 @@ object StatisticsAll {
       .builder()
       .appName(getClass.getSimpleName)
       .config("spark.sql.warehouse.dir", warehouseLocation)
+      .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+      .config("spark.sql.shuffle.partitions", "2000")
       .enableHiveSupport()
       .getOrCreate()
 
 
     process(spark, today, b1D)
-    process(spark, today, b3D)
-    process(spark, today, b7D)
+    //    process(spark, today, b3D)
+    //    process(spark, today, b7D)
   }
 
   def process(spark: SparkSession, today: String, dayType: (String, String)): Unit = {
@@ -100,13 +102,22 @@ object StatisticsAll {
     // 统计OSS 取 PUT,DELETE 作为增量与删除统计
     val ossTmp1 = sql("SELECT oss_bucket,method,Delta_DataSize FROM oss")
     // 行转列得到oss结果表
-    val pvt1sum = ossTmp1.groupBy("oss_bucket").pivot("method").sum("Delta_DataSize").na.fill(0)
+    var pvt1sum = ossTmp1.groupBy("oss_bucket").pivot("method").sum("Delta_DataSize").na.fill(0)
       .withColumnRenamed("PUT", "PUT_SIZE")
       .withColumnRenamed("DELETE", "DELETE_SIZE")
+    // 若没有 DELETE ?
+    val cols = pvt1sum.columns
+    if (cols.length == 2 || !cols.contains("DELETE_SIZE")) {
+      pvt1sum = pvt1sum.withColumn("DELETE_SIZE", pvt1sum("PUT_SIZE") - pvt1sum("PUT_SIZE"))
+    }
     val pvt1Res = pvt1sum.withColumn("All_SIZE", pvt1sum("PUT_SIZE") + pvt1sum("DELETE_SIZE"))
-    val pvt1cnt = ossTmp1.groupBy("oss_bucket").pivot("method").count().na.fill(0)
+    var pvt1cnt = ossTmp1.groupBy("oss_bucket").pivot("method").count().na.fill(0)
       .withColumnRenamed("PUT", "PUT_CNT")
       .withColumnRenamed("DELETE", "DELETE_CNT")
+    val cntCols = pvt1cnt.columns
+    if (cntCols.length == 2 || !cntCols.contains("DELETE_CNT")) {
+      pvt1cnt = pvt1cnt.withColumn("DELETE_CNT", pvt1cnt("PUT_CNT") - pvt1cnt("PUT_CNT"))
+    }
 
     //// 判断 cdn 中有 oss数据 ////
     val ossCdn = sql(
@@ -117,7 +128,7 @@ object StatisticsAll {
          | INNER JOIN oss a
          | ON a.oss_bucket = b.cdn_bucket and a.uri = b.uri
          | WHERE a.method = 'PUT'
-      """.stripMargin).persist(StorageLevel.MEMORY_ONLY_SER)
+      """.stripMargin) //.persist(StorageLevel.MEMORY_ONLY_SER)
 
     // 回源数据 统计cdn中数据
     val ossCdnsum = ossCdn.where("hitrate = 'MISS'").groupBy("oss_bucket").pivot("method").sum("responsesize_bytes").na.fill(0)
