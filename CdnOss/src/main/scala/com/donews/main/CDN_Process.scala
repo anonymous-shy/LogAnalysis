@@ -19,6 +19,7 @@ object CDN_Process {
   def main(args: Array[String]): Unit = {
 
     val desTable = args(0)
+
     val dt = args(1)
 
     val warehouseLocation = "hdfs://HdfsHA/data/user/hive/warehouse"
