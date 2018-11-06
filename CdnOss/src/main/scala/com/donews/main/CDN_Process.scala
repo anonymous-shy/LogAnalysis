@@ -42,7 +42,7 @@ object CDN_Process {
       s"/data/cdn_oss/cdn/$dt/donewsdataoss.g.com.cn_${dt}*",
       s"/data/cdn_oss/cdn/$dt/donewsdata.donews.com_${dt}*",
       s"/data/cdn_oss/cdn/$dt/content.g.com.cn_${dt}*",
-      s"/data/cdn_oss/cdn/$dt/vdta.g.com.cn_${dt}*"
+      s"/data/cdn_oss/cdn/$dt/vdata.g.com.cn_${dt}*"
     )
 
     fileArr.foreach(file => {
