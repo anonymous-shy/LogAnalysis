@@ -27,7 +27,7 @@ object OSS_Process {
       .getOrCreate()
     import spark.implicits._
 
-      val file = s"/data/cdn_oss/oss/*${dt}*"
+      val file = s"/data/cdn_oss/oss/$dt/*${dt}*"
       println("=================================================================================================")
       println(s"===========================================$file======================================================")
 
